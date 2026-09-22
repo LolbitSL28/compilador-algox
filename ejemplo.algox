@@ -1,0 +1,64 @@
+// Programa de ejemplo en AlgoX
+// Programa de ejemplo en AlgoX
+// Calcula factoriales del 1 al 10, encuentra el primero que supera
+// un limite dado, y muestra una cuenta regresiva.
+// Demuestra: asignacion, if/else anidado, while, repeat/until,
+// for con step, exit dentro de un ciclo, comentarios, cadenas,
+// numeros decimales y operadores logicos combinados.
+
+limite := 500.0;
+encontrado := 0;
+
+read(limite);
+write("Buscando el primer factorial mayor a:");
+write(limite);
+
+for n := 1 to 10 step 1 do {
+    fact := 1;
+    i := 1;
+
+    while i <= n do {
+        fact := fact * i;
+        i := i + 1;
+    }
+
+    write("Factorial de ");
+    write(n);
+    write(" es ");
+    write(fact);
+
+    if fact > limite and encontrado = 0 then {
+        write(">>> Este es el primero que supera el limite <<<");
+        encontrado := 1;
+        exit;
+    } else {
+        if fact = limite then {
+            write(">>> Coincide exactamente con el limite <<<");
+        }
+    }
+}
+
+if encontrado = 1 then {
+    write("Busqueda terminada con exito.");
+} else {
+    write("Ningun factorial supero el limite en el rango dado.");
+}
+
+// Cuenta regresiva usando repeat/until, con un if anidado
+contador := 5;
+repeat {
+    write("Contando: ");
+    write(contador);
+    if contador = 3 then {
+        write("  (a la mitad del conteo)");
+    }
+    contador := contador - 1;
+} until contador <= 0;
+
+write("Despegue!");
+
+// Verificacion final con operadores logicos combinados
+prueba := 7;
+if prueba > 0 and prueba < 10 or not (prueba = 5) then {
+    write("La prueba logica se cumple.");
+}
