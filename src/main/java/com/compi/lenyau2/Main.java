@@ -8,7 +8,7 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) {
 
-        String file = "ejemplo.algox";
+        String file = "pruebas.algox";
         Path path = Paths.get(file);
 
         try {
@@ -28,7 +28,7 @@ public class Main {
             }
 
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
+            System.out.println("Error al leer el archivo: " + e.getMessage());
         }
 
     }

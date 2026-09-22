@@ -32,6 +32,7 @@ public class Lexer {
 
             switch (actual) {
                 case ' ':
+                case '\r':
                 case '\t':
                     posicion++;
                     break;
@@ -92,7 +93,7 @@ public class Lexer {
                         addToken(TypesTokens.ASIGNACION, ":=");
                         posicion += 2;
                     } else {
-                        System.err.println("Error: se espera '=' en la línea " + line);
+                        System.out.println("Error: se espera '=' en la línea " + line);
                         posicion++;
                     }
                     break;
@@ -123,18 +124,24 @@ public class Lexer {
                 case '"':
                     posicion++;
                     String cadena = "";
-                    while (posicion < archivo.length() && archivo.charAt(posicion) != '"') {
-                        if (archivo.charAt(posicion) == '\n') {
-                            System.err.println("Error: Fin de línea inesperado en la línea " + line);
-                            line++;
-                            posicion++;
+                    boolean closed = false;
+                    while (posicion < archivo.length()) {
+                        char chr = archivo.charAt(posicion);
+                        if (chr == '"') {
+                            closed = true;
                             break;
                         }
-                        cadena += archivo.charAt(posicion);
+                        if (chr == '\n' || chr == '\r') {
+                            System.out.println("Error: Fin de línea inesperado en la línea " + line);
+                            break;
+                        }
+                        cadena += chr;
                         posicion++;
                     }
-                    addToken(TypesTokens.CADENA, cadena);
-                    posicion++;
+                    if (closed) {
+                        posicion++;
+                        addToken(TypesTokens.CADENA, cadena);
+                    }
                     break;
                 default:
                     if (Character.isDigit(actual)) {
@@ -221,7 +228,7 @@ public class Lexer {
                                 break;
                         }
                     } else {
-                        System.err.println("Error: Simbolo no valido '" + actual + "' en la línea " + line);
+                        System.out.println("Error: Simbolo no valido '" + actual + "' en la línea " + line);
                         posicion++;
                     }
                     break;
