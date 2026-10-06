@@ -223,6 +223,9 @@ public class Lexer {
                             case "string":
                                 addToken(TypesTokens.STRING, id);
                                 break;
+                            case "for":
+                                addToken(TypesTokens.FOR_, id);
+                                break;
                             default:
                                 addToken(TypesTokens.IDENTIFICADOR, id);
                                 break;

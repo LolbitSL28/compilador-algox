@@ -11,7 +11,8 @@ public enum TypesTokens {
     AND(200), OR(201), NOT(202),
     IF(203), THEN(204), ELSE(205), WHILE(206), DO(207), REPEAT(208), UNTIL(209), TO(210), STEP(211),
     EXIT(212), WRITE(213), READ(214),
-    INT(215), REAL(216), STRING(217);
+    INT(215), REAL(216), STRING(217),
+    FOR_(218);
 
     private int number;
 
