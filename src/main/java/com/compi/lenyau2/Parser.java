@@ -300,36 +300,51 @@ public class Parser {
 
     private NodoAST expresion() {
         NodoAST izq = expresionAnd();
-        while (aceptar(TypesTokens.OR)) {
+        while (check(TypesTokens.OR)) {
+            int linea = actual.getLine();
+            avanzar();
             NodoAST der = expresionAnd();
-            izq = new Binary("or", izq, der);
+            NodoAST b = new Binary("or", izq, der);
+            b.linea = linea;
+            izq = b;
         }
         return izq;
     }
 
     private NodoAST expresionAnd() {
         NodoAST izq = expresionNot();
-        while (aceptar(TypesTokens.AND)) {
+        while (check(TypesTokens.AND)) {
+            int linea = actual.getLine();
+            avanzar();
             NodoAST der = expresionNot();
-            izq = new Binary("and", izq, der);
+            NodoAST b = new Binary("and", izq, der);
+            b.linea = linea;
+            izq = b;
         }
         return izq;
     }
 
     private NodoAST expresionNot() {
-        if (aceptar(TypesTokens.NOT)) {
+        if (check(TypesTokens.NOT)) {
+            int linea = actual.getLine();
+            avanzar();
             NodoAST e = expresionNot();
-            return new Unary("not", e);
+            NodoAST u = new Unary("not", e);
+            u.linea = linea;
+            return u;
         }
         return expresionRelacional();
     }
 
     private NodoAST expresionRelacional() {
         NodoAST izq = expresionSimple();
+        int linea = (actual != null) ? actual.getLine() : -1;
         String op = operadorRelacional();
         if (op != null) {
             NodoAST der = expresionSimple();
-            return new Binary(op, izq, der);
+            NodoAST b = new Binary(op, izq, der);
+            b.linea = linea;
+            return b;
         }
         return izq;
     }
@@ -364,12 +379,21 @@ public class Parser {
     private NodoAST expresionSimple() {
         NodoAST izq = termino();
         while (true) {
-            if (aceptar(TypesTokens.SUMA)) {
-                izq = new Binary("+", izq, termino());
-            } else if (aceptar(TypesTokens.RESTA)) {
-                izq = new Binary("-", izq, termino());
-            } else
+            if (check(TypesTokens.SUMA)) {
+                int linea = actual.getLine();
+                avanzar();
+                NodoAST b = new Binary("+", izq, termino());
+                b.linea = linea;
+                izq = b;
+            } else if (check(TypesTokens.RESTA)) {
+                int linea = actual.getLine();
+                avanzar();
+                NodoAST b = new Binary("-", izq, termino());
+                b.linea = linea;
+                izq = b;
+            } else {
                 break;
+            }
         }
         return izq;
     }
@@ -377,12 +401,21 @@ public class Parser {
     private NodoAST termino() {
         NodoAST izq = factor();
         while (true) {
-            if (aceptar(TypesTokens.MULTIPLICACION)) {
-                izq = new Binary("*", izq, factor());
-            } else if (aceptar(TypesTokens.DIVISION)) {
-                izq = new Binary("/", izq, factor());
-            } else
+            if (check(TypesTokens.MULTIPLICACION)) {
+                int linea = actual.getLine();
+                avanzar();
+                NodoAST b = new Binary("*", izq, factor());
+                b.linea = linea;
+                izq = b;
+            } else if (check(TypesTokens.DIVISION)) {
+                int linea = actual.getLine();
+                avanzar();
+                NodoAST b = new Binary("/", izq, factor());
+                b.linea = linea;
+                izq = b;
+            } else {
                 break;
+            }
         }
         return izq;
     }
