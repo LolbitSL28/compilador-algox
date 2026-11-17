@@ -13,7 +13,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        String file = "pruebasresolver.algox";
+        String file = "ejemplo.algox";
         Path path = Paths.get(file);
 
         try {
