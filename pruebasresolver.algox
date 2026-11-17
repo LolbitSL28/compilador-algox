@@ -1,3 +1,7 @@
 int a;
-string a; 
-b := 5; 
+string a;
+int c;
+string d;
+int e; 
+b := 5;
+e := c + d;
